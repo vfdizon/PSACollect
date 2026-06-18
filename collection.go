@@ -24,10 +24,10 @@ type IndividalCharacter struct {
 }
 
 type CharacterQueryResult struct {
-	Characters []Character `json:"characters"`
-	Total      int         `json:"total"`
-	Page       int         `json:"page"`
-	PageSize   int         `json:"page_size"`
+	indivudalCharacters []IndividalCharacter
+	Total               int `json:"total"`
+	Page                int `json:"page"`
+	PageSize            int `json:"page_size"`
 }
 
 func getPlayerCollection(playerID string) ([]CollectionEntry, error) {
@@ -71,23 +71,28 @@ func queryPlayerCharacters(playerID, characterName string) (*CharacterQueryResul
 		return nil, err
 	}
 
-	var matchingCharacters []Character
+	var matchingCharacters []IndividalCharacter
 	for _, entry := range player.Collection {
 		character, err := getCharacterByID(entry.CharacterID)
 		if err != nil {
 			return nil, err
 		}
 
-		if characterName == "" || containsIgnoreCase(character.Name, characterName) {
-			matchingCharacters = append(matchingCharacters, *character)
+		if containsIgnoreCase(character.Name, characterName) {
+			matchingCharacters = append(matchingCharacters, IndividalCharacter{
+				CharacterInfo: *character,
+				UUID:          entry.UUID,
+				Level:         int(entry.Level),
+				Experience:    int(entry.XP),
+			})
 		}
 	}
 
 	return &CharacterQueryResult{
-		Characters: matchingCharacters,
-		Total:      len(matchingCharacters),
-		Page:       1,
-		PageSize:   len(matchingCharacters),
+		indivudalCharacters: matchingCharacters,
+		Total:               len(matchingCharacters),
+		Page:                1,
+		PageSize:            len(matchingCharacters),
 	}, nil
 }
 
