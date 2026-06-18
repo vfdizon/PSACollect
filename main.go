@@ -14,7 +14,7 @@ import (
 
 var (
 	minSpawnInterval = 1 * time.Minute
-	maxSpawnInterval = 10 * time.Minute
+	maxSpawnInterval = 3 * time.Minute
 	despawnInterval  = 1 * time.Minute
 )
 
