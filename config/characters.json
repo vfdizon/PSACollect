@@ -523,5 +523,149 @@
         "rarity": "Rare",
         "toughness": 0,
         "power": 0
+    },
+    {
+        "id": "00000039",
+        "name": "Pikachu Dustin",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003a",
+        "name": "Dustin Pasia",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003b",
+        "name": "Spryidon Left Leg",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003c",
+        "name": "Spryidon Right Leg",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003d",
+        "name": "Spryidon Left Arm",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003e",
+        "name": "Spryidon Right Arm",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000003f",
+        "name": "Spryidon Torso",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000040",
+        "name": "Spryidon Head",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000041",
+        "name": "Kawaiidon",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000042",
+        "name": "Blonde Dustin",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000043",
+        "name": "Lauren Capuno",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000044",
+        "name": "The Audience",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000045",
+        "name": "Spyridih",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000046",
+        "name": "The Gentrifier",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000047",
+        "name": "Clarisse Panlilio",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000048",
+        "name": "OGC",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
     }
 ]
