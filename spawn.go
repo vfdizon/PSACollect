@@ -168,10 +168,6 @@ func catchSpawn(session *discordgo.Session, playerID, channelID string) (*Collec
 		return nil, nil, err
 	}
 
-	if err := session.ChannelMessageDelete(spawn.channelID, spawn.messageID); err != nil {
-		log.Printf("failed to delete caught spawn message: %v", err)
-	}
-
 	spawnState.Lock()
 	if spawnState.active == spawn {
 		spawnState.active = nil
