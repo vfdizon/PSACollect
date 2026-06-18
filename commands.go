@@ -598,13 +598,9 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 	player1Character := make(chan *IndividalCharacter)
 	player2Character := make(chan *IndividalCharacter)
 
-	go func() {
-		characterSelection(s, m, userID, player1Ready, player1Character)
-	}()
+	go characterSelection(s, m, userID, player1Ready, player1Character)
 
-	go func() {
-		characterSelection(s, m, opponentID, player2Ready, player2Character)
-	}()
+	go characterSelection(s, m, opponentID, player2Ready, player2Character)
 
 	startTime := time.Now()
 	for {
@@ -661,6 +657,8 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		}
 		return
 	}
+
+	s.ChannelMessageSend(m.ChannelID, "DEBUG: Fetched player collection for character selection")
 
 	responseWaiter := &ResponseWaiter{
 		Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
