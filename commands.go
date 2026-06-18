@@ -591,84 +591,145 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 		log.Printf("failed to send battle preparation response: %v", err)
 		return
 	}
-	// ask both players to select a character from their collection to battle with, then simulate the battle and determine the winner based on the character's power and toughness, then send a message declaring the winner and loser
-	// for simplicity, the battle will just be a comparison of power and toughness, the character with higher power wins, if power is tied then the character with higher toughness wins, if still tied then it's a draw
 
-	// get player characters
-	// playerChars, err := getPlayerCharacters(userID)
-	// if err != nil {
-	// 	log.Printf("error fetching player characters: %v", err)
-	// 	if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your characters for battle."); err != nil {
-	// 		log.Printf("failed to send player characters fetch error response: %v", err)
-	// 	}
-	// 	return
-	// }
+	player1Ready := make(chan bool)
+	player2Ready := make(chan bool)
 
-	// opponentChars, err := getPlayerCharacters(opponentID)
-	// if err != nil {
-	// 	log.Printf("error fetching opponent characters: %v", err)
-	// 	if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your opponent's characters for battle."); err != nil {
-	// 		log.Printf("failed to send opponent characters fetch error response: %v", err)
-	// 	}
-	// 	return
-	// }
+	player1Character := make(chan *IndividalCharacter)
+	player2Character := make(chan *IndividalCharacter)
 
-	// // create embed menu for player to select character
-	// var playerEmbeds []*discordgo.MessageEmbed
-	// playerDescription := ""
-	// for i, char := range playerChars {
-	// 	playerDescription += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
-	// 		i+1, char.CharacterInfo.Name, char.CharacterInfo.ID, char.CharacterInfo.Rarity, char.CharacterInfo.Toughness, char.CharacterInfo.Power, char.Level, char.Experience, char.UUID)
-	// }
+	go func() {
+		characterSelection(s, m, userID, player1Ready, player1Character)
+	}()
 
-	// playerEmbed := &discordgo.MessageEmbed{
-	// 	Title:       "Select Your Character for Battle",
-	// 	Description: playerDescription,
-	// 	Color:       0x0000FF,
-	// }
-	// playerEmbeds = append(playerEmbeds, playerEmbed)
+	go func() {
+		characterSelection(s, m, opponentID, player2Ready, player2Character)
+	}()
 
-	// createEmbedMenu(s, m.ChannelID, playerEmbeds)
+	startTime := time.Now()
+	for {
+		if time.Since(startTime) > 5*time.Minute {
+			if _, err := s.ChannelMessageSend(m.ChannelID, "Battle timed out due to inactivity."); err != nil {
+				log.Printf("failed to send battle timeout response: %v", err)
+			}
+			return
+		}
 
-	// responseWaiter := &ResponseWaiter{
-	// 	Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
-	// 		selection, err := strconv.Atoi(strings.TrimSpace(m.Content))
-	// 		if err != nil || selection < 1 || selection > len(playerChars) {
-	// 			if _, err := s.ChannelMessageSend(m.ChannelID, "Invalid selection. Please enter the number corresponding to the character you want to battle with."); err != nil {
-	// 				log.Printf("failed to send invalid selection response: %v", err)
-	// 			}
-	// 			return
-	// 		}
+		if <-player1Ready {
+			if _, err := s.ChannelMessageSend(m.ChannelID, "Player 1 is ready!"); err != nil {
+				log.Printf("failed to send player 1 ready response: %v", err)
+			}
+		}
 
-	// 		playerChar := playerChars[selection-1]
+		if <-player2Ready {
+			if _, err := s.ChannelMessageSend(m.ChannelID, "Player 2 is ready!"); err != nil {
+				log.Printf("failed to send player 2 ready response: %v", err)
+			}
+		}
 
-	// 		// for simplicity, opponent will select a random character from their collection
-	// 		opponentChar := opponentChars[time.Now().UnixNano()%int64(len(opponentChars))]
-
-	// 		determineBattleOutcome(s, m, playerChar, opponentChar, userID, opponentID)
-	// 	},
-	// 	Channels: []bool{true, false}, // only accept response in the same channel as the command
-	// }
-	// responseWaiter.WaitForResponse(s, m)
-}
-
-func determineBattleOutcome(s *discordgo.Session, m *discordgo.MessageCreate, playerChar, opponentChar IndividalCharacter, playerID, opponentID string) {
-	playerPower := int(float64(playerChar.CharacterInfo.Power) * calculateRarityMultiplier(playerChar.CharacterInfo.Rarity))
-	playerToughness := int(float64(playerChar.CharacterInfo.Toughness) * calculateRarityMultiplier(playerChar.CharacterInfo.Rarity))
-
-	opponentPower := int(float64(opponentChar.CharacterInfo.Power) * calculateRarityMultiplier(opponentChar.CharacterInfo.Rarity))
-	opponentToughness := int(float64(opponentChar.CharacterInfo.Toughness) * calculateRarityMultiplier(opponentChar.CharacterInfo.Rarity))
-
-	var resultMessage string
-	if playerPower > opponentPower || (playerPower == opponentPower && playerToughness > opponentToughness) {
-		resultMessage = fmt.Sprintf("%s wins the battle with %s! 🎉", m.Author.Username, playerChar.CharacterInfo.Name)
-	} else if opponentPower > playerPower || (opponentPower == playerPower && opponentToughness > playerToughness) {
-		resultMessage = fmt.Sprintf("%s wins the battle with %s! 🎉", opponentID, opponentChar.CharacterInfo.Name)
-	} else {
-		resultMessage = "The battle is a draw! 🤝"
+		if <-player1Ready && <-player2Ready {
+			break
+		}
 	}
 
-	if _, err := s.ChannelMessageSend(m.ChannelID, resultMessage); err != nil {
+	IndividualCharacter1 := <-player1Character
+	IndividualCharacter2 := <-player2Character
+
+	// for now, just compare power and bigger power = winner
+
+	var winner string
+	if IndividualCharacter1.CharacterInfo.Power > IndividualCharacter2.CharacterInfo.Power {
+		winner = "Player 1"
+	} else if IndividualCharacter2.CharacterInfo.Power > IndividualCharacter1.CharacterInfo.Power {
+		winner = "Player 2"
+	} else {
+		winner = "It's a tie!"
+	}
+
+	if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("The battle is over! %s wins!", winner)); err != nil {
 		log.Printf("failed to send battle result response: %v", err)
 	}
+
+}
+
+func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID string, readyChan chan<- bool, characterChan chan<- *IndividalCharacter) {
+	collectionEntries, err := getPlayerCollection(userID)
+	if err != nil {
+		log.Printf("error fetching player collection for character selection: %v", err)
+		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection for character selection."); err != nil {
+			log.Printf("failed to send character selection collection fetch error response: %v", err)
+		}
+		return
+	}
+
+	responseWaiter := &ResponseWaiter{
+		Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+			messageContent := strings.TrimSpace(m.Content)
+
+			//check if their message is a name contained in their collection, if so, add the existing values to an array
+			var matchingCharacters []IndividalCharacter
+			for _, entry := range collectionEntries {
+				character, err := getCharacterByID(entry.CharacterID)
+				if err != nil {
+					log.Printf("error fetching character for character selection: %v", err)
+					continue
+				}
+
+				if containsIgnoreCase(character.Name, messageContent) {
+					matchingCharacters = append(matchingCharacters, IndividalCharacter{
+						CharacterInfo: *character,
+						Level:         int(entry.Level),
+						Experience:    int(entry.XP),
+						UUID:          entry.UUID,
+					})
+				}
+			}
+
+			if len(matchingCharacters) == 0 {
+				if _, err := s.ChannelMessageSend(m.ChannelID, "No characters found in your collection matching that name. Please enter the name of the character you want to use for the battle."); err != nil {
+					log.Printf("failed to send no matching characters response: %v", err)
+				}
+			} else if len(matchingCharacters) == 1 {
+				characterChan <- &matchingCharacters[0]
+				readyChan <- true
+			} else {
+				var embeds []*discordgo.MessageEmbed
+				description := ""
+				for i, indivChar := range matchingCharacters {
+					description += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
+						i+1, indivChar.CharacterInfo.Name, indivChar.CharacterInfo.ID, indivChar.CharacterInfo.Rarity, indivChar.CharacterInfo.Toughness, indivChar.CharacterInfo.Power, indivChar.Level, indivChar.Experience, indivChar.UUID)
+				}
+
+				embed := &discordgo.MessageEmbed{
+					Title:       "Select a Character for Battle",
+					Description: description,
+					Color:       0x0000FF,
+				}
+				embeds = append(embeds, embed)
+
+				createEmbedMenu(s, m.ChannelID, embeds)
+
+				insideResponseWaiter := &ResponseWaiter{
+					Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+						selection, err := strconv.Atoi(strings.TrimSpace(m.Content))
+						if err != nil || selection < 1 || selection > len(matchingCharacters) {
+							if _, err := s.ChannelMessageSend(m.ChannelID, "Invalid selection. Please enter the number corresponding to the character you want to use for battle."); err != nil {
+								log.Printf("failed to send invalid character selection response: %v", err)
+							}
+							return
+						}
+
+						characterChan <- &matchingCharacters[selection-1]
+						readyChan <- true
+					},
+				}
+
+				insideResponseWaiter.WaitForResponse(s, m)
+			}
+		},
+	}
+
+	responseWaiter.WaitForResponseFromUser(s, m, userID)
+	//
+
 }
