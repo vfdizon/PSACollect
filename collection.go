@@ -39,6 +39,30 @@ func getPlayerCollection(playerID string) ([]CollectionEntry, error) {
 	return append([]CollectionEntry{}, player.Collection...), nil
 }
 
+func getPlayerCharacters(playerID string) ([]IndividalCharacter, error) {
+	player, err := getPlayerByID(playerID)
+	if err != nil {
+		return nil, err
+	}
+
+	var characters []IndividalCharacter
+	for _, entry := range player.Collection {
+		character, err := getCharacterByID(entry.CharacterID)
+		if err != nil {
+			return nil, err
+		}
+
+		characters = append(characters, IndividalCharacter{
+			CharacterInfo: *character,
+			UUID:          entry.UUID,
+			Level:         int(entry.Level),
+			Experience:    int(entry.XP),
+		})
+	}
+
+	return characters, nil
+}
+
 func getCharacterByUUID(playerID, uuid string) (*IndividalCharacter, error) {
 	player, err := getPlayerByID(playerID)
 	if err != nil {
