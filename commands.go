@@ -65,7 +65,7 @@ func listenForCommands(s *discordgo.Session) {
 		// allow only the first word to be the command, the rest will be arguments
 		for _, cmd := range allowedCommands {
 			if strings.HasPrefix(content, prefix+cmd.Name) {
-				cmd.Handler(s, m)
+				go cmd.Handler(s, m)
 				if cmd.ResponseWaiter != nil {
 					rw := &ResponseWaiter{
 						Handler: cmd.ResponseWaiter,
@@ -494,5 +494,77 @@ var (
 				createEmbedMenu(s, m.ChannelID, embeds)
 			},
 		},
+		// {
+		// 	Name:		"battle",
+		// 	Description: "Initiates a battle between you and another player. Usage: ?battle @<opponent_mention>",
+		// 	Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		// 		if len(m.Mentions) != 1 {
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "Usage: ?battle @<opponent_mention>"); err != nil {
+		// 				log.Printf("failed to send battle usage response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		opponentID := m.Mentions[0].ID
+		// 		if opponentID == m.Author.ID {
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "You cannot battle yourself!"); err != nil {
+		// 				log.Printf("failed to send self battle response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		// see if user has at least 1 character in collection
+		// 		collectionEntries, err := getPlayerCollection(m.Author.ID)
+		// 		if err != nil {
+		// 			log.Printf("error fetching player collection: %v", err)
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection."); err != nil {
+		// 				log.Printf("failed to send collection fetch error response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		if len(collectionEntries) == 0 {
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "You need at least one character in your collection to battle. Catch some characters and try again!"); err != nil {
+		// 				log.Printf("failed to send no characters for battle response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		// see if opponent has at least 1 character in collection
+		// 		opponentCollectionEntries, err := getPlayerCollection(opponentID)
+		// 		if err != nil {
+		// 			log.Printf("error fetching opponent collection: %v", err)
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your opponent's collection."); err != nil {
+		// 				log.Printf("failed to send opponent collection fetch error response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		if len(opponentCollectionEntries) == 0 {
+		// 			if _, err := s.ChannelMessageSend(m.ChannelID, "Your opponent does not have any characters in their collection. They need to catch some characters before they can battle!"); err != nil {
+		// 				log.Printf("failed to send opponent no characters for battle response: %v", err)
+		// 			}
+		// 			return
+		// 		}
+
+		// 		// ask user if they accept the battle challenge
+		// 		if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s, do you accept the battle challenge from %s? Type 'yes' to accept.", m.Mentions[0].Username, m.Author.Username)); err != nil {
+		// 			log.Printf("failed to send battle challenge response: %v", err)
+		// 			return
+		// 		}
+
+		// 		responseWaiter := &ResponseWaiter{
+		// 			Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		// 				if strings.ToLower(strings.TrimSpace(m.Content)) != "yes" {
+		// 					if _, err := s.ChannelMessageSend(m.ChannelID, "Battle challenge declined."); err != nil {
+		// 						log.Printf("failed to send battle decline response: %v", err)
+		// 					}
+		// 					return
+		// 				}
+		// 			},
+		// 		}
+		// 		responseWaiter.WaitForResponse(s, m)
+
+		// },
 	}
 )
