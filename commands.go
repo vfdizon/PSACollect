@@ -338,5 +338,63 @@ var (
 				}
 			},
 		},
+		{
+			Name:        "getcollection",
+			Description: "Fetches a player's collection of characters by player ID. Usage: ?getcollection @<player_mention>",
+			Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+				if len(m.Mentions) != 1 {
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Usage: ?getcollection @<player_mention>"); err != nil {
+						log.Printf("failed to send getcollection usage response: %v", err)
+					}
+					return
+				}
+
+				playerID := m.Mentions[0].ID
+				collectionEntries, err := getPlayerCollection(playerID)
+				if err != nil {
+					log.Printf("error fetching player collection: %v", err)
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch the player's collection."); err != nil {
+						log.Printf("failed to send getcollection error response: %v", err)
+					}
+					return
+				}
+
+				if len(collectionEntries) == 0 {
+					if _, err := s.ChannelMessageSend(m.ChannelID, "The player's collection is empty."); err != nil {
+						log.Printf("failed to send empty collection response: %v", err)
+					}
+					return
+				}
+
+				var embeds []*discordgo.MessageEmbed
+				for i := 0; i < len(collectionEntries); i += playerCollectionPageSize {
+					end := i + playerCollectionPageSize
+					if end > len(collectionEntries) {
+						end = len(collectionEntries)
+					}
+
+					description := ""
+					for _, entry := range collectionEntries[i:end] {
+						character, err := getCharacterByID(entry.CharacterID)
+						if err != nil {
+							log.Printf("error fetching character for collection entry: %v", err)
+							continue
+						}
+
+						description += fmt.Sprintf("**%s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
+							character.Name, character.ID, character.Rarity, character.Toughness, character.Power, entry.Level, entry.XP, entry.UUID)
+					}
+
+					embed := &discordgo.MessageEmbed{
+						Title:       fmt.Sprintf("%s's Collection", m.Mentions[0].Username),
+						Description: description,
+						Color:       0x00FF00,
+					}
+					embeds = append(embeds, embed)
+				}
+
+				createEmbedMenu(s, m.ChannelID, embeds)
+			},
+		},
 	}
 )
