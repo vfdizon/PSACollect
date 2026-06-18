@@ -598,12 +598,6 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 	player1Character := make(chan *IndividalCharacter)
 	player2Character := make(chan *IndividalCharacter)
 
-	_, err = s.ChannelMessageSend(m.ChannelID, "Both players, please select a character from your collection to use for the battle by typing the character's name.")
-	if err != nil {
-		log.Printf("failed to send character selection prompt response: %v", err)
-		return
-	}
-
 	go func() {
 		characterSelection(s, m, userID, player1Ready, player1Character)
 	}()
@@ -670,6 +664,7 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 
 	responseWaiter := &ResponseWaiter{
 		Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+			s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside character selection response waiter handler")
 			messageContent := strings.TrimSpace(m.Content)
 
 			//check if their message is a name contained in their collection, if so, add the existing values to an array
@@ -717,6 +712,9 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 
 				insideResponseWaiter := &ResponseWaiter{
 					Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+
+						s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside character selection response waiter handler")
+
 						selection, err := strconv.Atoi(strings.TrimSpace(m.Content))
 						if err != nil || selection < 1 || selection > len(matchingCharacters) {
 							if _, err := s.ChannelMessageSend(m.ChannelID, "Invalid selection. Please enter the number corresponding to the character you want to use for battle."); err != nil {
@@ -728,11 +726,13 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 						characterChan <- &matchingCharacters[selection-1]
 						readyChan <- true
 					},
+					Channels: []bool{true}, // only accept response in the same channel as the command
 				}
 
 				insideResponseWaiter.WaitForResponse(s, m)
 			}
 		},
+		Channels: []bool{true}, // only accept response in the same channel as the command
 	}
 
 	responseWaiter.WaitForResponseFromUser(s, m, userID)
