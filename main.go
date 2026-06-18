@@ -40,6 +40,7 @@ func main() {
 	dg.Identify.Intents |= discordgo.IntentsMessageContent
 
 	listenForCommands(dg)
+	listenForResponses(dg)
 
 	if err := dg.Open(); err != nil {
 		log.Fatalf("failed to connect to Discord gateway: %v", err)

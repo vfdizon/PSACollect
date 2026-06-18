@@ -5,15 +5,49 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 type Command struct {
-	Name        string
-	Description string
-	Handler     func(s *discordgo.Session, m *discordgo.MessageCreate)
+	Name           string
+	Description    string
+	Handler        func(s *discordgo.Session, m *discordgo.MessageCreate)
+	ResponseWaiter func(s *discordgo.Session, m *discordgo.MessageCreate)
+}
+
+type ResponseWaiter struct {
+	Handler func(s *discordgo.Session, m *discordgo.MessageCreate)
+}
+
+func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.MessageCreate) {
+	// this function will block until a response is received or a timeout occurs, it will call the Handler function with the session and message when a response is received
+	// the key for activeResponseWaiters will be userID:channelID, so we can have multiple waiters for different users and channels without conflict
+	key := fmt.Sprintf("%s:%s", m.Author.ID, m.ChannelID)
+	activeResponseWaiters[key] = rw
+
+	// set up a timeout to remove the waiter after 60 seconds
+	go func() {
+		<-time.After(60 * time.Second)
+		delete(activeResponseWaiters, key)
+	}()
+}
+
+func listenForResponses(s *discordgo.Session) {
+	s.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		if m.Author == nil || m.Author.Bot {
+			return
+		}
+
+		key := fmt.Sprintf("%s:%s", m.Author.ID, m.ChannelID)
+		if rw, exists := activeResponseWaiters[key]; exists {
+			rw.Handler(s, m)
+			delete(activeResponseWaiters, key)
+		}
+	})
 }
 
 func listenForCommands(s *discordgo.Session) {
@@ -32,6 +66,12 @@ func listenForCommands(s *discordgo.Session) {
 		for _, cmd := range allowedCommands {
 			if strings.HasPrefix(content, prefix+cmd.Name) {
 				cmd.Handler(s, m)
+				if cmd.ResponseWaiter != nil {
+					rw := &ResponseWaiter{
+						Handler: cmd.ResponseWaiter,
+					}
+					rw.WaitForResponse(s, m)
+				}
 				return
 			}
 		}
@@ -43,8 +83,9 @@ func listenForCommands(s *discordgo.Session) {
 }
 
 var (
-	prefix          = "?"
-	allowedCommands = []Command{
+	prefix                = "?"
+	activeResponseWaiters = make(map[string]*ResponseWaiter) // key will be userID:channelID
+	allowedCommands       = []Command{
 		{
 			Name:        "ping",
 			Description: "Responds with 'abc!' to test bot responsiveness.",
@@ -336,9 +377,9 @@ var (
 				if len(queryResult.indivudalCharacters) > 1 {
 					var embeds []*discordgo.MessageEmbed
 					description := ""
-					for i, character := range queryResult.indivudalCharacters {
-						description += fmt.Sprintf("%d. **%s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
-							i, character.CharacterInfo.ID, character.CharacterInfo.Name, character.CharacterInfo.Rarity, character.CharacterInfo.Toughness, character.CharacterInfo.Power, character.Level, character.Experience, character.UUID)
+					for i, indivChar := range queryResult.indivudalCharacters {
+						description += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
+							i+1, indivChar.CharacterInfo.Name, indivChar.CharacterInfo.ID, indivChar.CharacterInfo.Rarity, indivChar.CharacterInfo.Toughness, indivChar.CharacterInfo.Power, indivChar.Level, indivChar.Experience, indivChar.UUID)
 					}
 
 					embed := &discordgo.MessageEmbed{
@@ -349,21 +390,49 @@ var (
 					embeds = append(embeds, embed)
 
 					createEmbedMenu(s, m.ChannelID, embeds)
-				} else {
-					entryUUID := queryResult.indivudalCharacters[0].UUID
-					if _, err := removeCharacterFromCollection(m.Author.ID, entryUUID); err != nil {
-						log.Printf("error releasing character: %v", err)
-						if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to release the character."); err != nil {
-							log.Printf("failed to send character release error response: %v", err)
-						}
-						return
-					}
 
-					//send message using character name and uuid
-					if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("You have released %s (Entry UUID: %s) from your collection.", queryResult.indivudalCharacters[0].CharacterInfo.Name, entryUUID)); err != nil {
-						log.Printf("failed to send character release success response: %v", err)
-						log.Printf("failed to send character release success response: %v", err)
+					responseWaiter := &ResponseWaiter{
+						Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
+							selection, err := strconv.Atoi(strings.TrimSpace(m.Content))
+							if err != nil || selection < 1 || selection > len(queryResult.indivudalCharacters) {
+								if _, err := s.ChannelMessageSend(m.ChannelID, "Invalid selection. Please enter the number corresponding to the character you want to release."); err != nil {
+									log.Printf("failed to send invalid selection response: %v", err)
+								}
+								return
+							}
+
+							charToRelease := queryResult.indivudalCharacters[selection-1]
+							_, err = releaseCharacter(m.Author.ID, charToRelease.UUID)
+							if err != nil {
+								log.Printf("error releasing character: %v", err)
+								if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to release the character."); err != nil {
+									log.Printf("failed to send character release error response: %v", err)
+								}
+								return
+							}
+
+							if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("You have released %s from your collection.", charToRelease.CharacterInfo.Name)); err != nil {
+								log.Printf("failed to send character release success response: %v", err)
+							}
+						},
 					}
+					responseWaiter.WaitForResponse(s, m)
+					return
+				}
+
+				// if only one character found, release it
+				charToRelease := queryResult.indivudalCharacters[0]
+				_, err = releaseCharacter(m.Author.ID, charToRelease.UUID)
+				if err != nil {
+					log.Printf("error releasing character: %v", err)
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to release the character."); err != nil {
+						log.Printf("failed to send character release error response: %v", err)
+					}
+					return
+				}
+
+				if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("You have released %s from your collection.", charToRelease.CharacterInfo.Name)); err != nil {
+					log.Printf("failed to send character release success response: %v", err)
 				}
 			},
 		},
