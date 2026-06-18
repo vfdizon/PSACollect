@@ -37,6 +37,17 @@ func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.Mes
 	}()
 }
 
+func (rw *ResponseWaiter) WaitForResponseFromUser(s *discordgo.Session, m *discordgo.MessageCreate, userID string) {
+	key := fmt.Sprintf("%s:%s", userID, m.ChannelID)
+	activeResponseWaiters[key] = rw
+
+	// set up a timeout to remove the waiter after 60 seconds
+	go func() {
+		<-time.After(60 * time.Second)
+		delete(activeResponseWaiters, key)
+	}()
+}
+
 func listenForResponses(s *discordgo.Session) {
 	s.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if m.Author == nil || m.Author.Bot {
@@ -567,7 +578,7 @@ var (
 					},
 					Channels: []bool{true, false}, // only accept response in the same channel as the command
 				}
-				responseWaiter.WaitForResponse(s, m)
+				responseWaiter.WaitForResponseFromUser(s, m, opponentID)
 
 			},
 		},
