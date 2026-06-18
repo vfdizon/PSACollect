@@ -1,0 +1,527 @@
+[
+    {
+        "id": "00000000",
+        "name": "Vincent Dizon",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "abilities": null,
+        "toughness": 10,
+        "power": 6
+    },
+    {
+        "id": "00000001",
+        "name": "Webmaster Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Uncommon",
+        "abilities": null,
+        "toughness": 3,
+        "power": 2
+    },
+    {
+        "id": "00000002",
+        "name": "High School Vincent",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Uncommon",
+        "abilities": null,
+        "toughness": 4,
+        "power": 3
+    },
+    {
+        "id": "00000003",
+        "name": "Drunk Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "abilities": null,
+        "toughness": 2,
+        "power": 1
+    },
+    {
+        "id": "00000004",
+        "name": "Crossed Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "abilities": null,
+        "toughness": 2,
+        "power": 1
+    },
+    {
+        "id": "00000005",
+        "name": "Robber Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "abilities": null,
+        "toughness": 2,
+        "power": 1
+    },
+    {
+        "id": "00000006",
+        "name": "High Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Uncommon",
+        "abilities": null,
+        "toughness": 4,
+        "power": 3
+    },
+    {
+        "id": "00000007",
+        "name": "Warrior Vincent",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Common",
+        "abilities": null,
+        "toughness": 6,
+        "power": 5
+    },
+    {
+        "id": "00000008",
+        "name": "Musician Vincent",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Common",
+        "abilities": null,
+        "toughness": 5,
+        "power": 4
+    },
+    {
+        "id": "00000009",
+        "name": "Freight Train Vincent",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Rare",
+        "abilities": null,
+        "toughness": 8,
+        "power": 7
+    },
+    {
+        "id": "0000000a",
+        "name": "Big V",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "abilities": null,
+        "toughness": 9,
+        "power": 8
+    },
+    {
+        "id": "0000000b",
+        "name": "Vincent \"Quino\" Dizon",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Rare",
+        "abilities": null,
+        "toughness": 3,
+        "power": 6
+    },
+    {
+        "id": "0000000c",
+        "name": "Ryan Kim",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000000d",
+        "name": "RTK",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000000e",
+        "name": "RTF",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000000f",
+        "name": "Taehyun",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000010",
+        "name": "Ryan with Mustache",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000011",
+        "name": "First KAMS Ryan",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000012",
+        "name": "Taylor Nievera",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000013",
+        "name": "Z",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000014",
+        "name": "Turn This Shit Up Z",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000015",
+        "name": "Otter Z",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000016",
+        "name": "Librarian Taylor",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000017",
+        "name": "The Graduate",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000018",
+        "name": "Fish Hook Zach",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000019",
+        "name": "Zach De Guzman",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001a",
+        "name": "Golden Loot Cy",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001b",
+        "name": "Cy Hallera-Cavanez",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001c",
+        "name": "Drummer Cy",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001d",
+        "name": "Musician Cy",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001e",
+        "name": "Piano Zach",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000001f",
+        "name": "Battle 2025 Tristan",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000020",
+        "name": "Tristan Sanceda",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000021",
+        "name": "Blake",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000022",
+        "name": "Ryan Romualdo",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000023",
+        "name": "The RnB Demon",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000024",
+        "name": "The Enforcer",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000025",
+        "name": "Jayden Rodriguez",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000026",
+        "name": "J10",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000027",
+        "name": "Aiden Camasosa",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000028",
+        "name": "A10",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000029",
+        "name": "Warrior Aiden",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002a",
+        "name": "FAR Dorm Vincent",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002b",
+        "name": "Fredryll Patingo",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002c",
+        "name": "The Dryll",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002d",
+        "name": "The Smacked",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002e",
+        "name": "The Smacker",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "0000002f",
+        "name": "Fredryll \\\"Straight Teeth \\\" Patingo",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000030",
+        "name": "Pierson Kenneth",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000031",
+        "name": "PierSON",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000032",
+        "name": "Piersun",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000033",
+        "name": "Aiden (floor)",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000034",
+        "name": "Lolo Brian",
+        "image_path": "",
+        "type": "Locked In",
+        "rarity": "Common",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000035",
+        "name": "Brian Mariano",
+        "image_path": "",
+        "type": "Barkada",
+        "rarity": "Mythic",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000036",
+        "name": "Spider Brian",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Uncommon",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000037",
+        "name": "BOGO Aiden",
+        "image_path": "",
+        "type": "Goon",
+        "rarity": "Legendary",
+        "toughness": 0,
+        "power": 0
+    },
+    {
+        "id": "00000038",
+        "name": "Piersonion",
+        "image_path": "",
+        "type": "Harana",
+        "rarity": "Rare",
+        "toughness": 0,
+        "power": 0
+    }
+]
