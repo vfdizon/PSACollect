@@ -598,15 +598,9 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 	player1Character := make(chan *IndividalCharacter)
 	player2Character := make(chan *IndividalCharacter)
 
-	_, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s, please select a character from your collection to use for the battle by typing the character's name.", m.Author.Username))
+	_, err = s.ChannelMessageSend(m.ChannelID, "Both players, please select a character from your collection to use for the battle by typing the character's name.")
 	if err != nil {
-		log.Printf("failed to send player 1 character selection response: %v", err)
-		return
-	}
-
-	_, err = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s, please select a character from your collection to use for the battle by typing the character's name.", m.Mentions[0].Username))
-	if err != nil {
-		log.Printf("failed to send player 2 character selection response: %v", err)
+		log.Printf("failed to send character selection prompt response: %v", err)
 		return
 	}
 
