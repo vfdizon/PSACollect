@@ -38,6 +38,7 @@ func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.Mes
 }
 
 func (rw *ResponseWaiter) WaitForResponseFromUser(s *discordgo.Session, m *discordgo.MessageCreate, userID string) {
+	s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside WaitForResponseFromUser")
 	key := fmt.Sprintf("%s:%s", userID, m.ChannelID)
 	activeResponseWaiters[key] = rw
 
@@ -657,8 +658,6 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		}
 		return
 	}
-
-	s.ChannelMessageSend(m.ChannelID, "DEBUG: Fetched player collection for character selection")
 
 	responseWaiter := &ResponseWaiter{
 		Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
