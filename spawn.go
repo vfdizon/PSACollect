@@ -188,11 +188,11 @@ func loadSpawnConfig() (spawnConfig, error) {
 	if err != nil {
 		return spawnConfig{}, err
 	}
-	maxInterval, err := parseDurationEnv("SPAWN_MAX_INTERVAL", 10*time.Minute)
+	maxInterval, err := parseDurationEnv("SPAWN_MAX_INTERVAL", 2*time.Minute)
 	if err != nil {
 		return spawnConfig{}, err
 	}
-	despawnInterval, err := parseDurationEnv("SPAWN_DESPAWN_INTERVAL", 5*time.Minute)
+	despawnInterval, err := parseDurationEnv("SPAWN_DESPAWN_INTERVAL", 1*time.Minute)
 	if err != nil {
 		return spawnConfig{}, err
 	}
