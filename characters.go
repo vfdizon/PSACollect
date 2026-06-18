@@ -104,12 +104,12 @@ func getRandomWeightedCharacter() (*Character, error) {
 	}
 
 	rarityWeights := []rarityBucket{
-		{name: "Common", weight: 0.75},
-		{name: "Uncommon", weight: 0.18},
-		{name: "Rare", weight: 0.05},
-		{name: "Epic", weight: 0.015},
-		{name: "Legendary", weight: 0.004},
-		{name: "Mythic", weight: 0.001},
+		{name: "Common", weight: 0.50},
+		{name: "Uncommon", weight: 0.25},
+		{name: "Rare", weight: 0.16},
+		{name: "Epic", weight: 0.06},
+		{name: "Legendary", weight: 0.02},
+		{name: "Mythic", weight: 0.01},
 	}
 
 	charactersByRarity := make(map[string][]Character)
