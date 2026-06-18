@@ -304,38 +304,92 @@ var (
 		},
 		{
 			Name:        "release",
-			Description: "Releases a character from the player's collection. Usage: ?release <entry_uuid>",
+			Description: "Releases a character from the player's collection. Usage: ?release <character_name>",
 			Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
 				parts := strings.Fields(m.Content)
-				if len(parts) != 2 {
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Usage: ?release <entry_uuid>"); err != nil {
+				if len(parts) < 2 {
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Usage: ?release <character_name>"); err != nil {
 						log.Printf("failed to send release usage response: %v", err)
 					}
 					return
 				}
 
-				entryUUID := parts[1]
-				entry, err := releaseCharacter(m.Author.ID, entryUUID)
+				characterName := strings.Join(parts[1:], " ")
+
+				queryResult, err := queryPlayerCharacters(m.Author.ID, characterName)
 				if err != nil {
-					log.Printf("error releasing character: %v", err)
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to release character. Make sure you entered a valid entry UUID."); err != nil {
-						log.Printf("failed to send release error response: %v", err)
+					log.Printf("error querying player collection by name: %v", err)
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to query your collection."); err != nil {
+						log.Printf("failed to send collection query error response: %v", err)
 					}
 					return
 				}
 
-				character, err := getCharacterByID(entry.CharacterID)
-				if err != nil {
-					log.Printf("error fetching character for released entry: %v", err)
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Character released, but failed to fetch character information."); err != nil {
-						log.Printf("failed to send release success response with character info error: %v", err)
+				if len(queryResult.Characters) == 0 {
+					if _, err := s.ChannelMessageSend(m.ChannelID, "No characters found in your collection matching that name."); err != nil {
+						log.Printf("failed to send no characters found response: %v", err)
 					}
 					return
 				}
 
-				if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("You released %s from your collection.", character.Name)); err != nil {
-					log.Printf("failed to send release success response: %v", err)
+				// if multiple characters matching name, ask user to specify, use an embed menu to list all of them with the index
+				if len(queryResult.Characters) > 1 {
+					var embeds []*discordgo.MessageEmbed
+					for _, character := range queryResult.Characters {
+						embed := &discordgo.MessageEmbed{
+							Title:       character.Name,
+							Description: fmt.Sprintf("Type: %s\nRarity: %s\nToughness: %d\nPower: %d", character.Type, character.Rarity, character.Toughness, character.Power),
+							Color:       getRarityColor(character.Rarity),
+						}
+						embeds = append(embeds, embed)
+					}
+
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Multiple characters found. Please specify the exact name or use the UUID to release a specific character."); err != nil {
+						log.Printf("failed to send multiple characters found response: %v", err)
+					}
+					createEmbedMenu(s, m.ChannelID, embeds)
+					return
 				}
+
+				characterToRelease := queryResult.Characters[0]
+				// get the entry uuid of the character to release
+				player, err := getPlayerByID(m.Author.ID)
+				if err != nil {
+					log.Printf("error fetching player by ID: %v", err)
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your player data."); err != nil {
+						log.Printf("failed to send player data fetch error response: %v", err)
+					}
+					return
+				}
+
+				var entryUUID string
+				for _, entry := range player.Collection {
+					if entry.CharacterID == characterToRelease.ID {
+						entryUUID = entry.UUID
+						break
+					}
+				}
+
+				if entryUUID == "" {
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Character not found in your collection."); err != nil {
+						log.Printf("failed to send character not found in collection response: %v", err)
+					}
+					return
+				}
+
+				_, err = removeCharacterFromCollection(m.Author.ID, entryUUID)
+				if err != nil {
+					log.Printf("error releasing character from collection: %v", err)
+					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to release the character from your collection."); err != nil {
+						log.Printf("failed to send character release error response: %v", err)
+					}
+					return
+				}
+
+				if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("You have released %s from your collection.", characterToRelease.Name)); err != nil {
+					log.Printf("failed to send character release success response: %v", err)
+				}
+
 			},
 		},
 		{
