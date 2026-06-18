@@ -612,21 +612,13 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 			return
 		}
 
-		if <-player1Ready {
-			if _, err := s.ChannelMessageSend(m.ChannelID, "Player 1 is ready!"); err != nil {
-				log.Printf("failed to send player 1 ready response: %v", err)
-			}
-		}
+		p1 := <-player1Ready
+		p2 := <-player2Ready
 
-		if <-player2Ready {
-			if _, err := s.ChannelMessageSend(m.ChannelID, "Player 2 is ready!"); err != nil {
-				log.Printf("failed to send player 2 ready response: %v", err)
-			}
-		}
-
-		if <-player1Ready && <-player2Ready {
+		if p1 && p2 {
 			break
 		}
+
 	}
 
 	IndividualCharacter1 := <-player1Character
