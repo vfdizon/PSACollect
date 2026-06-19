@@ -599,6 +599,8 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 	player1Character := make(chan *IndividalCharacter)
 	player2Character := make(chan *IndividalCharacter)
 
+	s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("DEBUG: Initiater: %s, Opponent: %s", userID, opponentID))
+
 	go characterSelection(s, m, userID, player1Ready, player1Character)
 
 	go characterSelection(s, m, opponentID, player2Ready, player2Character)
