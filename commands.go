@@ -20,8 +20,13 @@ type Command struct {
 }
 
 type ResponseWaiter struct {
-	Handler  func(s *discordgo.Session, m *discordgo.MessageCreate)
-	Channels []bool // if empty, accept from any channel, otherwise only accept from channels at the specified indices in the command content split by spaces, for example if the command is "?example arg1 arg2 arg3" and Channels is [1, 3], then it will only accept responses from the same channel as the command (index 0) and the channel with ID equal to arg3 (index 3)
+	Handler func(s *discordgo.Session, m *discordgo.MessageCreate)
+}
+
+type UserSendListener struct {
+	UserID    string
+	ChannelID string
+	Handler   func(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -46,6 +51,17 @@ func (rw *ResponseWaiter) WaitForResponseFromUser(s *discordgo.Session, m *disco
 		<-time.After(60 * time.Second)
 		delete(activeResponseWaiters, key)
 	}()
+}
+
+func (usl *UserSendListener) listen(s *discordgo.Session) {
+	s.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
+		if m.Author == nil || m.Author.Bot {
+			return
+		}
+		if m.Author.ID == usl.UserID && m.ChannelID == usl.ChannelID {
+			usl.Handler(s, m)
+		}
+	})
 }
 
 func listenForResponses(s *discordgo.Session) {
@@ -576,7 +592,6 @@ var (
 
 						handleBattle(s, m, m.Author.ID, opponentID)
 					},
-					Channels: []bool{true, false}, // only accept response in the same channel as the command
 				}
 				responseWaiter.WaitForResponseFromUser(s, m, opponentID)
 
@@ -640,14 +655,14 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 
 }
 
-func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID string, readyChan chan<- bool, characterChan chan<- *IndividalCharacter) {
+func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID string, readyChan chan<- bool, characterChan chan<- *IndividalCharacter) error {
 	_, err := getPlayerCollection(userID)
 	if err != nil {
 		log.Printf("error fetching player collection for character selection: %v", err)
 		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection for character selection."); err != nil {
 			log.Printf("failed to send character selection collection fetch error response: %v", err)
 		}
-		return
+		return err
 	}
 
 	// send a message to user DM, if fails, send in the channel and ask them to check their DMs
@@ -657,12 +672,22 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to create a DM channel for character selection. Please check your DMs and try again."); err != nil {
 			log.Printf("failed to send character selection DM error response: %v", err)
 		}
-		return
+		return err
 	}
 
-	s.ChannelMessageSend(channel.ID, "Which character do you want to use for the battle? Please enter the name of the character.")
+	_, err = s.ChannelMessageSend(channel.ID, "Which character do you want to use for the battle? Please enter the name of the character.")
+	if err != nil {
+		log.Printf("error sending character selection prompt: %v", err)
+		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to send a message in DM for character selection. Please check your DMs and try again."); err != nil {
+			log.Printf("failed to send character selection DM prompt error response: %v", err)
+		}
 
-	responseWaiter := &ResponseWaiter{
+		return err
+	}
+
+	dmListener := &UserSendListener{
+		UserID:    userID,
+		ChannelID: channel.ID,
 		Handler: func(s *discordgo.Session, rm *discordgo.MessageCreate) {
 			if rm.Author.ID != userID {
 				return
@@ -705,5 +730,9 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 			readyChan <- true
 		},
 	}
-	responseWaiter.WaitForResponseFromUser(s, m, userID)
+
+	dmListener.listen(s)
+
+	return nil
+
 }
