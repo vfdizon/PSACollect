@@ -567,9 +567,9 @@ var (
 				}
 
 				responseWaiter := &ResponseWaiter{
-					Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
-						if strings.ToLower(strings.TrimSpace(m.Content)) != "yes" {
-							if _, err := s.ChannelMessageSend(m.ChannelID, "Battle challenge declined."); err != nil {
+					Handler: func(s *discordgo.Session, rm *discordgo.MessageCreate) {
+						if strings.ToLower(strings.TrimSpace(rm.Content)) != "yes" {
+							if _, err := s.ChannelMessageSend(rm.ChannelID, "Battle challenge declined."); err != nil {
 								log.Printf("failed to send battle decline response: %v", err)
 							}
 							return
