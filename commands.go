@@ -642,7 +642,7 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 }
 
 func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID string, readyChan chan<- bool, characterChan chan<- *IndividalCharacter) {
-	collectionEntries, err := getPlayerCollection(userID)
+	_, err := getPlayerCollection(userID)
 	if err != nil {
 		log.Printf("error fetching player collection for character selection: %v", err)
 		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection for character selection."); err != nil {
@@ -651,80 +651,16 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		return
 	}
 
-	responseWaiter := &ResponseWaiter{
-		Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
-			s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside character selection response waiter handler")
-			messageContent := strings.TrimSpace(m.Content)
-
-			//check if their message is a name contained in their collection, if so, add the existing values to an array
-			var matchingCharacters []IndividalCharacter
-			for _, entry := range collectionEntries {
-				character, err := getCharacterByID(entry.CharacterID)
-				if err != nil {
-					log.Printf("error fetching character for character selection: %v", err)
-					continue
-				}
-
-				if containsIgnoreCase(character.Name, messageContent) {
-					matchingCharacters = append(matchingCharacters, IndividalCharacter{
-						CharacterInfo: *character,
-						Level:         int(entry.Level),
-						Experience:    int(entry.XP),
-						UUID:          entry.UUID,
-					})
-				}
-			}
-
-			if len(matchingCharacters) == 0 {
-				if _, err := s.ChannelMessageSend(m.ChannelID, "No characters found in your collection matching that name. Please enter the name of the character you want to use for the battle."); err != nil {
-					log.Printf("failed to send no matching characters response: %v", err)
-				}
-			} else if len(matchingCharacters) == 1 {
-				characterChan <- &matchingCharacters[0]
-				readyChan <- true
-			} else {
-				var embeds []*discordgo.MessageEmbed
-				description := ""
-				for i, indivChar := range matchingCharacters {
-					description += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
-						i+1, indivChar.CharacterInfo.Name, indivChar.CharacterInfo.ID, indivChar.CharacterInfo.Rarity, indivChar.CharacterInfo.Toughness, indivChar.CharacterInfo.Power, indivChar.Level, indivChar.Experience, indivChar.UUID)
-				}
-
-				embed := &discordgo.MessageEmbed{
-					Title:       "Select a Character for Battle",
-					Description: description,
-					Color:       0x0000FF,
-				}
-				embeds = append(embeds, embed)
-
-				createEmbedMenu(s, m.ChannelID, embeds)
-
-				insideResponseWaiter := &ResponseWaiter{
-					Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
-
-						s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside character selection response waiter handler")
-
-						selection, err := strconv.Atoi(strings.TrimSpace(m.Content))
-						if err != nil || selection < 1 || selection > len(matchingCharacters) {
-							if _, err := s.ChannelMessageSend(m.ChannelID, "Invalid selection. Please enter the number corresponding to the character you want to use for battle."); err != nil {
-								log.Printf("failed to send invalid character selection response: %v", err)
-							}
-							return
-						}
-
-						characterChan <- &matchingCharacters[selection-1]
-						readyChan <- true
-					},
-					Channels: []bool{true}, // only accept response in the same channel as the command
-				}
-
-				insideResponseWaiter.WaitForResponse(s, m)
-			}
-		},
-		Channels: []bool{true}, // only accept response in the same channel as the command
+	// send a message to user DM, if fails, send in the channel and ask them to check their DMs
+	channel, err := s.UserChannelCreate(userID)
+	if err != nil {
+		log.Printf("error creating DM channel for character selection: %v", err)
+		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to create a DM channel for character selection. Please check your DMs and try again."); err != nil {
+			log.Printf("failed to send character selection DM error response: %v", err)
+		}
+		return
 	}
 
-	responseWaiter.WaitForResponseFromUser(s, m, userID)
-	//
+	s.ChannelMessageSend(channel.ID, "Please select a character for battle by typing the corresponding number:")
 
 }
