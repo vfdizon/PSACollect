@@ -651,6 +651,8 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		return
 	}
 
+	s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("DEBUG: dming user %s for character selection", userID))
+
 	// send a message to user DM, if fails, send in the channel and ask them to check their DMs
 	channel, err := s.UserChannelCreate(userID)
 	if err != nil {
@@ -661,6 +663,6 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		return
 	}
 
-	s.ChannelMessageSend(channel.ID, "Please select a character for battle by typing the corresponding number:")
+	s.ChannelMessageSend(channel.ID, "Which character do you want to use for the battle? Please enter the name of the character.")
 
 }
