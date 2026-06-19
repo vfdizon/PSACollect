@@ -38,7 +38,6 @@ func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.Mes
 }
 
 func (rw *ResponseWaiter) WaitForResponseFromUser(s *discordgo.Session, m *discordgo.MessageCreate, userID string) {
-	s.ChannelMessageSend(m.ChannelID, "DEBUG: Inside WaitForResponseFromUser")
 	key := fmt.Sprintf("%s:%s", userID, m.ChannelID)
 	activeResponseWaiters[key] = rw
 
@@ -599,8 +598,6 @@ func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, oppo
 	player1Character := make(chan *IndividalCharacter)
 	player2Character := make(chan *IndividalCharacter)
 
-	s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("DEBUG: Initiater: %s, Opponent: %s", userID, opponentID))
-
 	go characterSelection(s, m, userID, player1Ready, player1Character)
 
 	go characterSelection(s, m, opponentID, player2Ready, player2Character)
@@ -653,8 +650,6 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 		return
 	}
 
-	s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("DEBUG: dming user %s for character selection", userID))
-
 	// send a message to user DM, if fails, send in the channel and ask them to check their DMs
 	channel, err := s.UserChannelCreate(userID)
 	if err != nil {
@@ -667,4 +662,48 @@ func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID
 
 	s.ChannelMessageSend(channel.ID, "Which character do you want to use for the battle? Please enter the name of the character.")
 
+	responseWaiter := &ResponseWaiter{
+		Handler: func(s *discordgo.Session, rm *discordgo.MessageCreate) {
+			if rm.Author.ID != userID {
+				return
+			}
+
+			characterName := strings.TrimSpace(rm.Content)
+			queryResult, err := queryPlayerCharacters(userID, characterName)
+			if err != nil {
+				log.Printf("error querying player collection by name for character selection: %v", err)
+				if _, err := s.ChannelMessageSend(channel.ID, "Failed to query your collection for character selection."); err != nil {
+					log.Printf("failed to send character selection collection query error response: %v", err)
+				}
+				return
+			}
+
+			if len(queryResult.indivudalCharacters) == 0 {
+				if _, err := s.ChannelMessageSend(channel.ID, "No characters found in your collection matching that name. Please try again."); err != nil {
+					log.Printf("failed to send no characters found for character selection response: %v", err)
+				}
+				return
+			}
+
+			// if multiple characters, ask user to specify which one by index
+			if len(queryResult.indivudalCharacters) > 1 {
+				description := ""
+				for i, indivChar := range queryResult.indivudalCharacters {
+					description += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
+						i+1, indivChar.CharacterInfo.Name, indivChar.CharacterInfo.ID, indivChar.CharacterInfo.Rarity, indivChar.CharacterInfo.Toughness, indivChar.CharacterInfo.Power, indivChar.Level, indivChar.Experience, indivChar.UUID)
+				}
+
+				if _, err := s.ChannelMessageSend(channel.ID, "Multiple characters found. Please enter the number corresponding to the character you want to use:\n"+description); err != nil {
+					log.Printf("failed to send multiple characters found for character selection response: %v", err)
+				}
+				return
+			}
+
+			// if only one character found, select it
+			selectedCharacter := queryResult.indivudalCharacters[0]
+			characterChan <- &selectedCharacter
+			readyChan <- true
+		},
+	}
+	responseWaiter.WaitForResponseFromUser(s, m, userID)
 }
