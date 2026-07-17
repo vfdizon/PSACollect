@@ -12,12 +12,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	minSpawnInterval = 1 * time.Minute
-	maxSpawnInterval = 3 * time.Minute
-	despawnInterval  = 1 * time.Minute
-)
-
 func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Printf("warning: could not load .env file: %v", err)
@@ -38,6 +32,7 @@ func main() {
 	dg.Identify.Intents |= discordgo.IntentsGuildMessages
 	dg.Identify.Intents |= discordgo.IntentsGuildMessageReactions
 	dg.Identify.Intents |= discordgo.IntentsMessageContent
+	dg.Identify.Intents |= discordgo.IntentsDirectMessages
 
 	listenForCommands(dg)
 	listenForResponses(dg)
@@ -65,10 +60,10 @@ func createEmbedMenu(s *discordgo.Session, channelID string, embeds []*discordgo
 
 	currentIndex := 0
 	timeout := time.NewTimer(5 * time.Minute)
-	defer timeout.Stop()
 
 	message, err := s.ChannelMessageSendEmbed(channelID, embeds[currentIndex])
 	if err != nil {
+		timeout.Stop()
 		log.Printf("failed to send embed menu: %v", err)
 		return
 	}
@@ -82,12 +77,16 @@ func createEmbedMenu(s *discordgo.Session, channelID string, embeds []*discordgo
 		}
 	}
 
-	reactionChan := make(chan *discordgo.MessageReactionAdd)
+	reactionChan := make(chan *discordgo.MessageReactionAdd, 8)
+	removeHandler := func() {}
 
 	if len(embeds) > 1 {
-		s.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
-			if r.MessageID == message.ID && r.UserID != s.State.User.ID {
-				reactionChan <- r
+		removeHandler = s.AddHandler(func(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+			if r.ChannelID == channelID && r.MessageID == message.ID && r.UserID != s.State.User.ID && (r.Emoji.Name == "⬅️" || r.Emoji.Name == "➡️") {
+				select {
+				case reactionChan <- r:
+				default:
+				}
 			}
 		})
 	}
@@ -103,6 +102,8 @@ func createEmbedMenu(s *discordgo.Session, channelID string, embeds []*discordgo
 	}
 
 	go func() {
+		defer timeout.Stop()
+		defer removeHandler()
 		for {
 			select {
 			case reaction := <-reactionChan:

@@ -1617,8 +1617,8 @@
         "id": "000000b3",
         "name": "Social Chair Nate",
         "image_path": "",
-        "type": "Epic",
-        "rarity": "Goon",
+        "type": "Goon",
+        "rarity": "Epic",
         "toughness": 0,
         "power": 0
     },

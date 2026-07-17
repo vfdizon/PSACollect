@@ -12,10 +12,12 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 )
 
 var errPlayerNotFound = errors.New("player not found")
 var errCollectionEntryNotFound = errors.New("collection entry not found")
+var databaseHTTPClient = &http.Client{Timeout: 10 * time.Second}
 
 type CollectionEntry struct {
 	UUID        string `json:"uuid"`
@@ -57,7 +59,7 @@ func getPlayerByID(id string) (*Player, error) {
 	}
 	setDatabaseHeaders(request, cfg.apiKey)
 
-	response, err := http.DefaultClient.Do(request)
+	response, err := databaseHTTPClient.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("query player: %w", err)
 	}
@@ -229,7 +231,7 @@ func createPlayer(id string) (*Player, error) {
 	setDatabaseHeaders(request, cfg.apiKey)
 	request.Header.Set("Prefer", "return=representation")
 
-	response, err := http.DefaultClient.Do(request)
+	response, err := databaseHTTPClient.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("create player: %w", err)
 	}
@@ -258,6 +260,28 @@ func ensurePlayer(id string) (*Player, error) {
 
 func updatePlayerCollection(id string, collection []CollectionEntry) (*Player, error) {
 	return updatePlayerFields(id, map[string]any{"collection": collection})
+}
+
+func awardPlayerXP(id string, amount int64) (*Player, error) {
+	if amount < 0 {
+		return nil, errors.New("XP award cannot be negative")
+	}
+
+	player, err := getPlayerByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	newXP := player.XP + amount
+	newLevel := int16(1 + newXP/100)
+	if newLevel < player.Level {
+		newLevel = player.Level
+	}
+
+	return updatePlayerFields(id, map[string]any{
+		"xp":    newXP,
+		"level": newLevel,
+	})
 }
 
 func updatePlayerFields(id string, fields map[string]any) (*Player, error) {
@@ -293,7 +317,7 @@ func updatePlayerFields(id string, fields map[string]any) (*Player, error) {
 	setDatabaseHeaders(request, cfg.apiKey)
 	request.Header.Set("Prefer", "return=representation")
 
-	response, err := http.DefaultClient.Do(request)
+	response, err := databaseHTTPClient.Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("update player: %w", err)
 	}

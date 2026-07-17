@@ -8,10 +8,23 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 var (
-	characterPageSize = 10
+	characterPageSize        = 10
+	charactersOnce           sync.Once
+	cachedCharacters         []Character
+	cachedCharactersByID     map[string]Character
+	cachedCharactersByRarity map[string][]Character
+	cachedCharactersErr      error
+)
+
+const (
+	CharacterTypeGoon     = "Goon"
+	CharacterTypeHarana   = "Harana"
+	CharacterTypeBarkada  = "Barkada"
+	CharacterTypeLockedIn = "Locked In"
 )
 
 type Character struct {
@@ -25,70 +38,36 @@ type Character struct {
 }
 
 func getCharacterByID(id string) (*Character, error) {
-	// will search ../config/characters.json for the character with the given id and return it, if exists
-	charactersPath, err := charactersFilePath()
-
+	_, charactersByID, _, err := loadCharacters()
 	if err != nil {
-		return nil, fmt.Errorf("get characters file path: %w", err)
+		return nil, err
 	}
 
-	data, err := os.ReadFile(charactersPath)
-	if err != nil {
-		return nil, fmt.Errorf("read characters file: %w", err)
+	character, exists := charactersByID[strings.TrimSpace(id)]
+	if !exists {
+		return nil, errors.New("character not found")
 	}
-
-	var characters []Character
-	if err := json.Unmarshal(data, &characters); err != nil {
-		return nil, fmt.Errorf("parse characters file: %w", err)
-	}
-
-	for _, character := range characters {
-		if character.ID == id {
-			return &character, nil
-		}
-	}
-
-	return nil, errors.New("character not found")
+	return &character, nil
 }
 
 func getRandomCharacter() (*Character, error) {
-	charactersPath, err := charactersFilePath()
+	characters, _, _, err := loadCharacters()
 	if err != nil {
-		return nil, fmt.Errorf("get characters file path: %w", err)
-	}
-
-	data, err := os.ReadFile(charactersPath)
-	if err != nil {
-		return nil, fmt.Errorf("read characters file: %w", err)
-	}
-
-	var characters []Character
-	if err := json.Unmarshal(data, &characters); err != nil {
-		return nil, fmt.Errorf("parse characters file: %w", err)
+		return nil, err
 	}
 
 	if len(characters) == 0 {
 		return nil, errors.New("no characters found")
 	}
 
-	randomIndex := rand.Intn(len(characters))
-	return &characters[randomIndex], nil
+	character := characters[rand.Intn(len(characters))]
+	return &character, nil
 }
 
 func getRandomWeightedCharacter() (*Character, error) {
-	charactersPath, err := charactersFilePath()
+	characters, _, charactersByRarity, err := loadCharacters()
 	if err != nil {
-		return nil, fmt.Errorf("get characters file path: %w", err)
-	}
-
-	data, err := os.ReadFile(charactersPath)
-	if err != nil {
-		return nil, fmt.Errorf("read characters file: %w", err)
-	}
-
-	var characters []Character
-	if err := json.Unmarshal(data, &characters); err != nil {
-		return nil, fmt.Errorf("parse characters file: %w", err)
+		return nil, err
 	}
 
 	if len(characters) == 0 {
@@ -112,12 +91,6 @@ func getRandomWeightedCharacter() (*Character, error) {
 		{name: "Mythic", weight: 0.01},
 	}
 
-	charactersByRarity := make(map[string][]Character)
-	for _, character := range characters {
-		rarity := strings.TrimSpace(character.Rarity)
-		charactersByRarity[rarity] = append(charactersByRarity[rarity], character)
-	}
-
 	totalWeight := 0.0
 	for _, bucket := range rarityWeights {
 		totalWeight += bucket.weight
@@ -137,31 +110,21 @@ func getRandomWeightedCharacter() (*Character, error) {
 		selectedRarity = "Common"
 	}
 
-	selectedCharacters := charactersByRarity[selectedRarity]
+	selectedCharacters := charactersByRarity[strings.ToLower(selectedRarity)]
 	if len(selectedCharacters) == 0 {
 		// Fall back to any character if the selected rarity is missing from the file.
-		randomIndex := rand.Intn(len(characters))
-		return &characters[randomIndex], nil
+		character := characters[rand.Intn(len(characters))]
+		return &character, nil
 	}
 
-	randomIndex := rand.Intn(len(selectedCharacters))
-	return &selectedCharacters[randomIndex], nil
+	character := selectedCharacters[rand.Intn(len(selectedCharacters))]
+	return &character, nil
 }
 
 func getCharacterPages() ([][]Character, error) {
-	charactersPath, err := charactersFilePath()
+	characters, _, _, err := loadCharacters()
 	if err != nil {
-		return nil, fmt.Errorf("get characters file path: %w", err)
-	}
-
-	data, err := os.ReadFile(charactersPath)
-	if err != nil {
-		return nil, fmt.Errorf("read characters file: %w", err)
-	}
-
-	var characters []Character
-	if err := json.Unmarshal(data, &characters); err != nil {
-		return nil, fmt.Errorf("parse characters file: %w", err)
+		return nil, err
 	}
 
 	var pages [][]Character
@@ -170,10 +133,64 @@ func getCharacterPages() ([][]Character, error) {
 		if end > len(characters) {
 			end = len(characters)
 		}
-		pages = append(pages, characters[i:end])
+		pages = append(pages, append([]Character(nil), characters[i:end]...))
 	}
 
 	return pages, nil
+}
+
+func loadCharacters() ([]Character, map[string]Character, map[string][]Character, error) {
+	charactersOnce.Do(func() {
+		charactersPath, err := charactersFilePath()
+		if err != nil {
+			cachedCharactersErr = fmt.Errorf("get characters file path: %w", err)
+			return
+		}
+
+		data, err := os.ReadFile(charactersPath)
+		if err != nil {
+			cachedCharactersErr = fmt.Errorf("read characters file: %w", err)
+			return
+		}
+		if err := json.Unmarshal(data, &cachedCharacters); err != nil {
+			cachedCharactersErr = fmt.Errorf("parse characters file: %w", err)
+			return
+		}
+		if len(cachedCharacters) == 0 {
+			cachedCharactersErr = errors.New("no characters found")
+			return
+		}
+
+		cachedCharactersByID = make(map[string]Character, len(cachedCharacters))
+		cachedCharactersByRarity = make(map[string][]Character)
+		for i := range cachedCharacters {
+			character := &cachedCharacters[i]
+			character.Type = canonicalCharacterType(character.Type)
+			cachedCharactersByID[character.ID] = *character
+			rarity := strings.ToLower(strings.TrimSpace(character.Rarity))
+			cachedCharactersByRarity[rarity] = append(cachedCharactersByRarity[rarity], *character)
+		}
+	})
+
+	return cachedCharacters, cachedCharactersByID, cachedCharactersByRarity, cachedCharactersErr
+}
+
+func canonicalCharacterType(characterType string) string {
+	normalized := strings.ToLower(strings.TrimSpace(characterType))
+	normalized = strings.Join(strings.Fields(strings.NewReplacer("-", " ", "_", " ").Replace(normalized)), " ")
+
+	switch normalized {
+	case "chud", "goon":
+		return CharacterTypeGoon
+	case "harana":
+		return CharacterTypeHarana
+	case "barkada":
+		return CharacterTypeBarkada
+	case "lockin", "lock in", "locked in":
+		return CharacterTypeLockedIn
+	default:
+		return strings.TrimSpace(characterType)
+	}
 }
 
 func charactersFilePath() (string, error) {

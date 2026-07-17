@@ -7,60 +7,37 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
 
 type Command struct {
-	Name           string
-	Description    string
-	Handler        func(s *discordgo.Session, m *discordgo.MessageCreate)
-	ResponseWaiter func(s *discordgo.Session, m *discordgo.MessageCreate)
+	Name        string
+	Description string
+	Handler     func(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
 type ResponseWaiter struct {
 	Handler func(s *discordgo.Session, m *discordgo.MessageCreate)
 }
 
-type UserSendListener struct {
-	UserID    string
-	ChannelID string
-	Handler   func(s *discordgo.Session, m *discordgo.MessageCreate)
-}
-
 func (rw *ResponseWaiter) WaitForResponse(s *discordgo.Session, m *discordgo.MessageCreate) {
 	// this function will block until a response is received or a timeout occurs, it will call the Handler function with the session and message when a response is received
 	// the key for activeResponseWaiters will be userID:channelID, so we can have multiple waiters for different users and channels without conflict
 	key := fmt.Sprintf("%s:%s", m.Author.ID, m.ChannelID)
+	responseWaitersMu.Lock()
 	activeResponseWaiters[key] = rw
+	responseWaitersMu.Unlock()
 
 	// set up a timeout to remove the waiter after 60 seconds
-	go func() {
-		<-time.After(60 * time.Second)
-		delete(activeResponseWaiters, key)
-	}()
-}
-
-func (rw *ResponseWaiter) WaitForResponseFromUser(s *discordgo.Session, m *discordgo.MessageCreate, userID string) {
-	key := fmt.Sprintf("%s:%s", userID, m.ChannelID)
-	activeResponseWaiters[key] = rw
-
-	// set up a timeout to remove the waiter after 60 seconds
-	go func() {
-		<-time.After(60 * time.Second)
-		delete(activeResponseWaiters, key)
-	}()
-}
-
-func (usl *UserSendListener) listen(s *discordgo.Session) {
-	s.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
-		if m.Author == nil || m.Author.Bot {
-			return
+	time.AfterFunc(60*time.Second, func() {
+		responseWaitersMu.Lock()
+		if activeResponseWaiters[key] == rw {
+			delete(activeResponseWaiters, key)
 		}
-		if m.Author.ID == usl.UserID && m.ChannelID == usl.ChannelID {
-			usl.Handler(s, m)
-		}
+		responseWaitersMu.Unlock()
 	})
 }
 
@@ -71,9 +48,14 @@ func listenForResponses(s *discordgo.Session) {
 		}
 
 		key := fmt.Sprintf("%s:%s", m.Author.ID, m.ChannelID)
-		if rw, exists := activeResponseWaiters[key]; exists {
-			rw.Handler(s, m)
+		responseWaitersMu.Lock()
+		rw, exists := activeResponseWaiters[key]
+		if exists {
 			delete(activeResponseWaiters, key)
+		}
+		responseWaitersMu.Unlock()
+		if exists {
+			rw.Handler(s, m)
 		}
 	})
 }
@@ -84,22 +66,15 @@ func listenForCommands(s *discordgo.Session) {
 			return
 		}
 
-		content := strings.TrimSpace(m.Content)
-
-		if content == "" || !strings.HasPrefix(content, prefix) {
+		fields := strings.Fields(strings.TrimSpace(m.Content))
+		if len(fields) == 0 || !strings.HasPrefix(fields[0], prefix) {
 			return
 		}
+		commandName := strings.TrimPrefix(fields[0], prefix)
 
-		// allow only the first word to be the command, the rest will be arguments
 		for _, cmd := range allowedCommands {
-			if strings.HasPrefix(content, prefix+cmd.Name) {
+			if strings.EqualFold(commandName, cmd.Name) {
 				go cmd.Handler(s, m)
-				if cmd.ResponseWaiter != nil {
-					rw := &ResponseWaiter{
-						Handler: cmd.ResponseWaiter,
-					}
-					rw.WaitForResponse(s, m)
-				}
 				return
 			}
 		}
@@ -112,6 +87,7 @@ func listenForCommands(s *discordgo.Session) {
 
 var (
 	prefix                = "?"
+	responseWaitersMu     sync.Mutex
 	activeResponseWaiters = make(map[string]*ResponseWaiter) // key will be userID:channelID
 	allowedCommands       = []Command{
 		{
@@ -525,214 +501,7 @@ var (
 		{
 			Name:        "battle",
 			Description: "Initiates a battle between you and another player. Usage: ?battle @<opponent_mention>",
-			Handler: func(s *discordgo.Session, m *discordgo.MessageCreate) {
-				if len(m.Mentions) != 1 {
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Usage: ?battle @<opponent_mention>"); err != nil {
-						log.Printf("failed to send battle usage response: %v", err)
-					}
-					return
-				}
-
-				opponentID := m.Mentions[0].ID
-				if opponentID == m.Author.ID {
-					if _, err := s.ChannelMessageSend(m.ChannelID, "You cannot battle yourself!"); err != nil {
-						log.Printf("failed to send self battle response: %v", err)
-					}
-					return
-				}
-
-				// see if user has at least 1 character in collection
-				collectionEntries, err := getPlayerCollection(m.Author.ID)
-				if err != nil {
-					log.Printf("error fetching player collection: %v", err)
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection."); err != nil {
-						log.Printf("failed to send collection fetch error response: %v", err)
-					}
-					return
-				}
-
-				if len(collectionEntries) == 0 {
-					if _, err := s.ChannelMessageSend(m.ChannelID, "You need at least one character in your collection to battle. Catch some characters and try again!"); err != nil {
-						log.Printf("failed to send no characters for battle response: %v", err)
-					}
-					return
-				}
-
-				// see if opponent has at least 1 character in collection
-				opponentCollectionEntries, err := getPlayerCollection(opponentID)
-				if err != nil {
-					log.Printf("error fetching opponent collection: %v", err)
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your opponent's collection."); err != nil {
-						log.Printf("failed to send opponent collection fetch error response: %v", err)
-					}
-					return
-				}
-
-				if len(opponentCollectionEntries) == 0 {
-					if _, err := s.ChannelMessageSend(m.ChannelID, "Your opponent does not have any characters in their collection. They need to catch some characters before they can battle!"); err != nil {
-						log.Printf("failed to send opponent no characters for battle response: %v", err)
-					}
-					return
-				}
-
-				// ask user if they accept the battle challenge
-				if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("%s, do you accept the battle challenge from %s? Type 'yes' to accept.", m.Mentions[0].Username, m.Author.Username)); err != nil {
-					log.Printf("failed to send battle challenge response: %v", err)
-					return
-				}
-
-				responseWaiter := &ResponseWaiter{
-					Handler: func(s *discordgo.Session, rm *discordgo.MessageCreate) {
-						if strings.ToLower(strings.TrimSpace(rm.Content)) != "yes" {
-							if _, err := s.ChannelMessageSend(rm.ChannelID, "Battle challenge declined."); err != nil {
-								log.Printf("failed to send battle decline response: %v", err)
-							}
-							return
-						}
-
-						handleBattle(s, m, m.Author.ID, opponentID)
-					},
-				}
-				responseWaiter.WaitForResponseFromUser(s, m, opponentID)
-
-			},
+			Handler:     handleBattleChallenge,
 		},
 	}
 )
-
-func handleBattle(s *discordgo.Session, m *discordgo.MessageCreate, userID, opponentID string) {
-	_, err := s.ChannelMessageSend(m.ChannelID, "Battle accepted! Preparing the battlefield...")
-	if err != nil {
-		log.Printf("failed to send battle preparation response: %v", err)
-		return
-	}
-
-	player1Ready := make(chan bool)
-	player2Ready := make(chan bool)
-
-	player1Character := make(chan *IndividalCharacter)
-	player2Character := make(chan *IndividalCharacter)
-
-	go characterSelection(s, m, userID, player1Ready, player1Character)
-
-	go characterSelection(s, m, opponentID, player2Ready, player2Character)
-
-	startTime := time.Now()
-	for {
-		if time.Since(startTime) > 5*time.Minute {
-			if _, err := s.ChannelMessageSend(m.ChannelID, "Battle timed out due to inactivity."); err != nil {
-				log.Printf("failed to send battle timeout response: %v", err)
-			}
-			return
-		}
-
-		p1 := <-player1Ready
-		p2 := <-player2Ready
-
-		if p1 && p2 {
-			break
-		}
-
-	}
-
-	IndividualCharacter1 := <-player1Character
-	IndividualCharacter2 := <-player2Character
-
-	// for now, just compare power and bigger power = winner
-
-	var winner string
-	if IndividualCharacter1.CharacterInfo.Power > IndividualCharacter2.CharacterInfo.Power {
-		winner = "Player 1"
-	} else if IndividualCharacter2.CharacterInfo.Power > IndividualCharacter1.CharacterInfo.Power {
-		winner = "Player 2"
-	} else {
-		winner = "It's a tie!"
-	}
-
-	if _, err := s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("The battle is over! %s wins!", winner)); err != nil {
-		log.Printf("failed to send battle result response: %v", err)
-	}
-
-}
-
-func characterSelection(s *discordgo.Session, m *discordgo.MessageCreate, userID string, readyChan chan<- bool, characterChan chan<- *IndividalCharacter) error {
-	_, err := getPlayerCollection(userID)
-	if err != nil {
-		log.Printf("error fetching player collection for character selection: %v", err)
-		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to fetch your collection for character selection."); err != nil {
-			log.Printf("failed to send character selection collection fetch error response: %v", err)
-		}
-		return err
-	}
-
-	// send a message to user DM, if fails, send in the channel and ask them to check their DMs
-	channel, err := s.UserChannelCreate(userID)
-	if err != nil {
-		log.Printf("error creating DM channel for character selection: %v", err)
-		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to create a DM channel for character selection. Please check your DMs and try again."); err != nil {
-			log.Printf("failed to send character selection DM error response: %v", err)
-		}
-		return err
-	}
-
-	_, err = s.ChannelMessageSend(channel.ID, "Which character do you want to use for the battle? Please enter the name of the character.")
-	if err != nil {
-		log.Printf("error sending character selection prompt: %v", err)
-		if _, err := s.ChannelMessageSend(m.ChannelID, "Failed to send a message in DM for character selection. Please check your DMs and try again."); err != nil {
-			log.Printf("failed to send character selection DM prompt error response: %v", err)
-		}
-
-		return err
-	}
-
-	dmListener := &UserSendListener{
-		UserID:    userID,
-		ChannelID: channel.ID,
-		Handler: func(s *discordgo.Session, rm *discordgo.MessageCreate) {
-			if rm.Author.ID != userID {
-				return
-			}
-
-			characterName := strings.TrimSpace(rm.Content)
-			queryResult, err := queryPlayerCharacters(userID, characterName)
-			if err != nil {
-				log.Printf("error querying player collection by name for character selection: %v", err)
-				if _, err := s.ChannelMessageSend(channel.ID, "Failed to query your collection for character selection."); err != nil {
-					log.Printf("failed to send character selection collection query error response: %v", err)
-				}
-				return
-			}
-
-			if len(queryResult.indivudalCharacters) == 0 {
-				if _, err := s.ChannelMessageSend(channel.ID, "No characters found in your collection matching that name. Please try again."); err != nil {
-					log.Printf("failed to send no characters found for character selection response: %v", err)
-				}
-				return
-			}
-
-			// if multiple characters, ask user to specify which one by index
-			if len(queryResult.indivudalCharacters) > 1 {
-				description := ""
-				for i, indivChar := range queryResult.indivudalCharacters {
-					description += fmt.Sprintf("**%d. %s** (ID: %s)\nRarity: %s | Toughness: %d | Power: %d | Level: %d | XP: %d\nEntry UUID: %s\n\n",
-						i+1, indivChar.CharacterInfo.Name, indivChar.CharacterInfo.ID, indivChar.CharacterInfo.Rarity, indivChar.CharacterInfo.Toughness, indivChar.CharacterInfo.Power, indivChar.Level, indivChar.Experience, indivChar.UUID)
-				}
-
-				if _, err := s.ChannelMessageSend(channel.ID, "Multiple characters found. Please enter the number corresponding to the character you want to use:\n"+description); err != nil {
-					log.Printf("failed to send multiple characters found for character selection response: %v", err)
-				}
-				return
-			}
-
-			// if only one character found, select it
-			selectedCharacter := queryResult.indivudalCharacters[0]
-			characterChan <- &selectedCharacter
-			readyChan <- true
-		},
-	}
-
-	dmListener.listen(s)
-
-	return nil
-
-}
