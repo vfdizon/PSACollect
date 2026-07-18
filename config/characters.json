@@ -125,8 +125,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000000d",
@@ -134,8 +134,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "0000000e",
@@ -143,8 +143,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 6
     },
     {
         "id": "0000000f",
@@ -152,8 +152,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 11
     },
     {
         "id": "00000010",
@@ -161,8 +161,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 3
     },
     {
         "id": "00000011",
@@ -170,8 +170,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 3
     },
     {
         "id": "00000012",
@@ -179,8 +179,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000013",
@@ -188,8 +188,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "00000014",
@@ -197,8 +197,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "00000015",
@@ -206,8 +206,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000016",
@@ -215,8 +215,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "00000017",
@@ -224,8 +224,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "00000018",
@@ -233,8 +233,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "00000019",
@@ -242,8 +242,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000001a",
@@ -251,8 +251,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "0000001b",
@@ -260,8 +260,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000001c",
@@ -269,8 +269,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "0000001d",
@@ -278,8 +278,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 4
     },
     {
         "id": "0000001e",
@@ -287,8 +287,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "0000001f",
@@ -296,8 +296,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "00000020",
@@ -305,8 +305,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000021",
@@ -314,8 +314,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 3
     },
     {
         "id": "00000022",
@@ -323,8 +323,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000023",
@@ -332,8 +332,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 5
     },
     {
         "id": "00000024",
@@ -341,8 +341,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 5
     },
     {
         "id": "00000025",
@@ -350,8 +350,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000026",
@@ -359,8 +359,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "00000027",
@@ -368,8 +368,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000028",
@@ -377,8 +377,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 6
     },
     {
         "id": "00000029",
@@ -386,8 +386,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "0000002a",
@@ -395,8 +395,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "0000002b",
@@ -404,8 +404,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000002c",
@@ -413,8 +413,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 7
     },
     {
         "id": "0000002d",
@@ -422,8 +422,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "0000002e",
@@ -431,8 +431,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "0000002f",
@@ -440,8 +440,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "00000030",
@@ -449,8 +449,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000031",
@@ -458,8 +458,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 11
     },
     {
         "id": "00000032",
@@ -467,8 +467,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 4
     },
     {
         "id": "00000033",
@@ -476,8 +476,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "00000034",
@@ -485,8 +485,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000035",
@@ -494,8 +494,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000036",
@@ -503,8 +503,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "00000037",
@@ -512,8 +512,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "00000038",
@@ -521,8 +521,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 7
     },
     {
         "id": "00000039",
@@ -530,8 +530,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 6
     },
     {
         "id": "0000003a",
@@ -539,8 +539,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000003b",
@@ -548,8 +548,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000003c",
@@ -557,8 +557,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000003d",
@@ -566,8 +566,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000003e",
@@ -575,8 +575,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000003f",
@@ -584,8 +584,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000040",
@@ -593,8 +593,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000041",
@@ -602,8 +602,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "00000042",
@@ -611,8 +611,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "00000043",
@@ -620,8 +620,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000044",
@@ -629,8 +629,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 7
     },
     {
         "id": "00000045",
@@ -638,8 +638,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "00000046",
@@ -647,8 +647,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "00000047",
@@ -656,8 +656,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000048",
@@ -665,8 +665,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000049",
@@ -674,8 +674,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000004a",
@@ -683,8 +683,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "0000004b",
@@ -692,8 +692,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "0000004d",
@@ -701,8 +701,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "0000004e",
@@ -710,8 +710,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "0000004f",
@@ -719,8 +719,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 6
     },
     {
         "id": "00000050",
@@ -728,8 +728,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 6
     },
     {
         "id": "00000051",
@@ -737,8 +737,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000052",
@@ -746,8 +746,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 5
     },
     {
         "id": "00000053",
@@ -755,8 +755,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 3
     },
     {
         "id": "00000054",
@@ -764,8 +764,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 9
     },
     {
         "id": "00000055",
@@ -773,8 +773,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "00000056",
@@ -782,8 +782,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 3
     },
     {
         "id": "00000057",
@@ -791,8 +791,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "00000058",
@@ -800,8 +800,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "00000059",
@@ -809,8 +809,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000005a",
@@ -818,8 +818,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "0000005b",
@@ -827,8 +827,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000005c",
@@ -836,8 +836,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "0000005d",
@@ -845,8 +845,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "0000005e",
@@ -854,8 +854,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "0000005f",
@@ -863,8 +863,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "00000060",
@@ -872,8 +872,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "00000061",
@@ -881,17 +881,17 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000062",
         "name": "IdM",
         "image_path": "",
         "type": "Locked In",
-        "rarity": "Harana",
-        "toughness": 0,
-        "power": 0
+        "rarity": "Mythic",
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000063",
@@ -899,8 +899,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "00000064",
@@ -908,8 +908,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "00000065",
@@ -917,8 +917,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 10,
+        "power": 5
     },
     {
         "id": "00000066",
@@ -926,8 +926,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "00000067",
@@ -935,8 +935,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000068",
@@ -944,8 +944,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "00000069",
@@ -953,8 +953,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 9
     },
     {
         "id": "0000006a",
@@ -962,8 +962,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 6
     },
     {
         "id": "0000006b",
@@ -971,8 +971,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "0000006c",
@@ -980,8 +980,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 3
     },
     {
         "id": "0000006d",
@@ -989,8 +989,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "0000006e",
@@ -998,8 +998,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "0000006f",
@@ -1007,8 +1007,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000070",
@@ -1016,8 +1016,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 7
     },
     {
         "id": "00000071",
@@ -1025,8 +1025,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 7
     },
     {
         "id": "00000072",
@@ -1034,8 +1034,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 9
     },
     {
         "id": "00000073",
@@ -1043,8 +1043,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000074",
@@ -1052,8 +1052,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "00000075",
@@ -1061,8 +1061,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "00000076",
@@ -1070,8 +1070,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "00000077",
@@ -1079,8 +1079,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000078",
@@ -1088,8 +1088,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 6
     },
     {
         "id": "00000079",
@@ -1097,8 +1097,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 9
     },
     {
         "id": "0000007a",
@@ -1106,8 +1106,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Legendary",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 11
     },
     {
         "id": "0000007b",
@@ -1115,8 +1115,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 4,
+        "power": 5
     },
     {
         "id": "0000007c",
@@ -1124,8 +1124,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "0000007d",
@@ -1133,8 +1133,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Rare",
-        "toughness": 0,
-        "power": 0
+        "toughness": 7,
+        "power": 5
     },
     {
         "id": "0000007e",
@@ -1142,8 +1142,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "0000007f",
@@ -1151,8 +1151,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 2
     },
     {
         "id": "00000080",
@@ -1160,8 +1160,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Uncommon",
-        "toughness": 0,
-        "power": 0
+        "toughness": 5,
+        "power": 4
     },
     {
         "id": "00000081",
@@ -1169,8 +1169,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000082",
@@ -1178,8 +1178,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000083",
@@ -1187,8 +1187,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000084",
@@ -1196,8 +1196,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000085",
@@ -1205,8 +1205,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000086",
@@ -1214,8 +1214,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000087",
@@ -1223,8 +1223,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000088",
@@ -1232,8 +1232,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000089",
@@ -1241,8 +1241,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000008a",
@@ -1250,8 +1250,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000008b",
@@ -1259,8 +1259,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000008c",
@@ -1268,8 +1268,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000008d",
@@ -1277,8 +1277,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000008e",
@@ -1286,8 +1286,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "0000008f",
@@ -1295,8 +1295,8 @@
         "image_path": "",
         "type": "Barkada",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 14,
+        "power": 8
     },
     {
         "id": "00000090",
@@ -1304,8 +1304,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000091",
@@ -1313,8 +1313,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000092",
@@ -1322,8 +1322,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000093",
@@ -1331,8 +1331,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000094",
@@ -1340,8 +1340,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "00000095",
@@ -1349,8 +1349,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000096",
@@ -1358,8 +1358,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "00000097",
@@ -1367,8 +1367,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "00000098",
@@ -1376,8 +1376,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "00000099",
@@ -1385,8 +1385,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000009a",
@@ -1394,8 +1394,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000009b",
@@ -1403,8 +1403,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000009c",
@@ -1412,8 +1412,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000009d",
@@ -1421,8 +1421,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "0000009e",
@@ -1430,8 +1430,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "0000009f",
@@ -1439,8 +1439,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a0",
@@ -1448,8 +1448,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "000000a1",
@@ -1457,8 +1457,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a2",
@@ -1466,8 +1466,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a3",
@@ -1475,8 +1475,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a4",
@@ -1484,8 +1484,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a5",
@@ -1493,8 +1493,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a6",
@@ -1502,8 +1502,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a7",
@@ -1511,8 +1511,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a8",
@@ -1520,8 +1520,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000a9",
@@ -1529,8 +1529,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "000000aa",
@@ -1538,8 +1538,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000ab",
@@ -1547,8 +1547,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "000000ac",
@@ -1556,8 +1556,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000ad",
@@ -1565,8 +1565,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000ae",
@@ -1574,8 +1574,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000af",
@@ -1583,8 +1583,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 11,
+        "power": 11
     },
     {
         "id": "000000b0",
@@ -1592,8 +1592,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 9,
+        "power": 13
     },
     {
         "id": "000000b1",
@@ -1601,8 +1601,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "000000b2",
@@ -1610,8 +1610,8 @@
         "image_path": "",
         "type": "Locked In",
         "rarity": "Mythic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 13,
+        "power": 9
     },
     {
         "id": "000000b3",
@@ -1619,8 +1619,8 @@
         "image_path": "",
         "type": "Goon",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 8,
+        "power": 7
     },
     {
         "id": "000000b4",
@@ -1628,8 +1628,8 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Common",
-        "toughness": 0,
-        "power": 0
+        "toughness": 3,
+        "power": 4
     },
     {
         "id": "000000b5",
@@ -1637,7 +1637,7 @@
         "image_path": "",
         "type": "Harana",
         "rarity": "Epic",
-        "toughness": 0,
-        "power": 0
+        "toughness": 6,
+        "power": 9
     }
 ]
